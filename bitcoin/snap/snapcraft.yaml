@@ -1,0 +1,69 @@
+name: bitcoin
+version: master
+summary:   peer-to-peer network based digital currency
+description: |
+  Bitcoin is a free open source peer-to-peer electronic cash system that
+  is completely decentralized, without the need for a central server or
+  trusted parties.  Users hold the crypto keys to their own money and
+  transact directly with each other, with the help of a P2P network to
+  check for double-spending.
+
+grade: devel
+confinement: strict
+
+apps:
+  daemon:
+    command: bitcoind
+    plugs: [network, network-bind]
+    aliases: [bitcond]
+  qt:
+    command: desktop-launch bitcoin-qt
+    plugs: [unity7]
+    aliases: [bitcoin-qt]
+  cli:
+    command: bitcoin-cli
+    aliases: [bitcoin-cli]
+
+parts:
+  bitcon:
+    source: https://github.com/bitcoin/bitcoin
+    source-type: git
+    plugin: autotools
+    build-packages:
+      - libssl-dev
+      - libevent-dev
+      - bsdmainutils
+      # Boost.
+      - libboost-system-dev
+      - libboost-filesystem-dev
+      - libboost-chrono-dev
+      - libboost-program-options-dev
+      - libboost-test-dev
+      - libboost-thread-dev
+      # Optional.
+      - libminiupnpc-dev
+      - libzmq3-dev
+      # GUI.
+      - libqt5gui5
+      - libqt5core5a
+      - libqt5dbus5
+      - qttools5-dev
+      - qttools5-dev-tools
+      - libprotobuf-dev
+      - protobuf-compiler
+      # Optional.
+      - libqrencode-dev
+    after:
+      - berkeleydb
+      - desktop-qt5
+  berkeleydb:
+    source: http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz
+    plugin: nil
+    build: |
+      cd build_unix
+      ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$SNAPCRAFT_PART_INSTALL
+    install: |
+      cd build_unix
+      make install
+    prime:
+      - -*
