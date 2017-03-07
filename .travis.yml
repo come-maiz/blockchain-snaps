@@ -1,0 +1,11 @@
+sudo: required
+
+servides:
+  - docker
+
+env:
+  matrix:
+    - PROJECT=bitcoin
+
+script:
+  - ./scripts/snap-in-docker.sh
