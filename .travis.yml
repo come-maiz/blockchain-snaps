@@ -8,4 +8,4 @@ env:
     - PROJECT=bitcoin
 
 script:
-  - ./scripts/snap-in-docker.sh
+  - ./scripts/snap-in-docker.sh $PROJECT
