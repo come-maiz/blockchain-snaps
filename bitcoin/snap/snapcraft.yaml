@@ -26,7 +26,7 @@ apps:
     plugs: [network, network-bind, unity7]
     aliases: [bitcoin-qt]
   cli:
-    command: bitcoin-cli
+    command: bitcoin-cli -datadir=$SNAP_USER_COMMON
     aliases: [bitcoin-cli]
 
 parts:
