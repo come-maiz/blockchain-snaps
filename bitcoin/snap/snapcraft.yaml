@@ -13,10 +13,7 @@ confinement: strict
 
 apps:
   daemon:
-    # XXX It would be better if we could split the wallet from the blockchain
-    # https://github.com/bitcoin/bitcoin/issues/3214
-    # --elopio -20170307
-    command: bitcoind -datadir=$SNAP_USER_COMMON
+    command: bitcoind
     plugs: [network, network-bind]
     environment:
       XDG_DATA_DIRS: $SNAP_USER_DATA:$SNAP/usr/share:$XDG_DATA_DIRS
@@ -26,7 +23,7 @@ apps:
     plugs: [network, network-bind, unity7]
     aliases: [bitcoin-qt]
   cli:
-    command: bitcoin-cli -datadir=$SNAP_USER_COMMON
+    command: bitcoin-cli
     aliases: [bitcoin-cli]
 
 parts:
@@ -34,6 +31,12 @@ parts:
     source: https://github.com/bitcoin/bitcoin
     source-type: git
     plugin: autotools
+    # XXX We don't want to copy the full blockchain every time that the snap is
+    # updated, but there's no way to define a default data dir in bitcoin-qt.
+    # Also, it would be better if we could split the wallet from the blockchain
+    # https://github.com/bitcoin/bitcoin/issues/3214
+    # -- elopio-20170308
+    prepare: git apply ../../../snap/default_data_dir.patch
     build-packages:
       - libssl-dev
       - libevent-dev
