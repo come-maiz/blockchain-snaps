@@ -21,7 +21,7 @@ apps:
     aliases: [bitcond]
   qt:
     command: desktop-launch bitcoin-qt
-    plugs: [unity7]
+    plugs: [network, network-bind, unity7]
     aliases: [bitcoin-qt]
   cli:
     command: bitcoin-cli
@@ -56,6 +56,7 @@ parts:
       - protobuf-compiler
       # Optional.
       - libqrencode-dev
+    stage-packages: [ca-certificates]
     after:
       - berkeleydb
       - desktop-qt5
