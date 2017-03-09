@@ -36,7 +36,7 @@ parts:
     # Also, it would be better if we could split the wallet from the blockchain
     # https://github.com/bitcoin/bitcoin/issues/3214
     # -- elopio-20170308
-    prepare: git apply ../../../snap/default_data_dir.patch
+    prepare: git apply $SNAPCRAFT_STAGE/default_data_dir.patch
     build-packages:
       - g++
       - pkg-config
@@ -67,6 +67,7 @@ parts:
     after:
       - berkeleydb
       - desktop-qt5
+      - patches
   berkeleydb:
     source: http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz
     plugin: nil
@@ -76,5 +77,10 @@ parts:
     install: |
       cd build_unix
       make install
+    prime:
+      - -*
+  patches:
+    source: snap/patches
+    plugin: dump
     prime:
       - -*
