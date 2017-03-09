@@ -38,6 +38,8 @@ parts:
     # -- elopio-20170308
     prepare: git apply ../../../snap/default_data_dir.patch
     build-packages:
+      - g++
+      - pkg-config
       - libssl-dev
       - libevent-dev
       - bsdmainutils
