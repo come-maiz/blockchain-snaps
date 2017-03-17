@@ -1,0 +1,87 @@
+name: bitcoin-unlimited
+version: master
+summary:   peer-to-peer network based digital currency
+description: |
+  The Bitcoin Unlimited (BU) project seeks to provide a voice to all
+  stakeholders in the Bitcoin ecosystem.
+
+  Every node operator or miner can currently choose their own blocksize limit
+  by modifying their client. Bitcoin Unlimited makes the process easier by
+  providing a configurable option for the accepted and generated blocksize via
+  a GUI menu. Bitcoin Unlimited further provides a user-configurable failsafe
+  setting allowing you to accept a block larger than your maximum accepted
+  blocksize if it reaches a certain number of blocks deep in the chain.
+
+grade: devel
+confinement: strict
+
+apps:
+  daemon:
+    command: bitcoind
+    plugs: [network, network-bind]
+    environment:
+      XDG_DATA_DIRS: $SNAP_USER_DATA:$SNAP/usr/share:$XDG_DATA_DIRS
+  qt:
+    command: desktop-launch bitcoin-qt
+    plugs: [network, network-bind, unity7]
+  cli:
+    command: bitcoin-cli
+
+parts:
+  bitcoin:
+    source: https://github.com/bitcoin/bitcoin
+    source-type: git
+    plugin: autotools
+    # XXX We don't want to copy the full blockchain every time that the snap is
+    # updated, but there's no way to define a default data dir in bitcoin-qt.
+    # Also, it would be better if we could split the wallet from the blockchain
+    # https://github.com/bitcoin/bitcoin/issues/3214
+    # -- elopio-20170308
+    prepare: git apply $SNAPCRAFT_STAGE/default_data_dir.patch
+    build-packages:
+      - g++
+      - pkg-config
+      - libssl-dev
+      - libevent-dev
+      - bsdmainutils
+      # Boost.
+      - libboost-system-dev
+      - libboost-filesystem-dev
+      - libboost-chrono-dev
+      - libboost-program-options-dev
+      - libboost-test-dev
+      - libboost-thread-dev
+      # Optional.
+      - libminiupnpc-dev
+      - libzmq3-dev
+      # GUI.
+      - libqt5gui5
+      - libqt5core5a
+      - libqt5dbus5
+      - qttools5-dev
+      - qttools5-dev-tools
+      - libprotobuf-dev
+      - protobuf-compiler
+      # Optional.
+      - libqrencode-dev
+    stage-packages: [ca-certificates]
+    after:
+      - berkeleydb
+      - desktop-qt5
+      - patches
+  berkeleydb:
+    source: http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz
+    plugin: nil
+    build: |
+      cd build_unix
+      ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$SNAPCRAFT_PART_INSTALL
+    install: |
+      cd build_unix
+      make install
+    prime:
+      - -*
+  patches:
+    source: snap/patches
+    plugin: dump
+    prime:
+      - -*
