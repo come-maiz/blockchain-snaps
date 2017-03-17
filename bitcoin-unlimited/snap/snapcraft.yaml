@@ -29,8 +29,9 @@ apps:
 
 parts:
   bitcoin:
-    source: https://github.com/bitcoin/bitcoin
+    source: https://github.com/BitcoinUnlimited/BitcoinUnlimited
     source-type: git
+    source-branch: release
     plugin: autotools
     # XXX We don't want to copy the full blockchain every time that the snap is
     # updated, but there's no way to define a default data dir in bitcoin-qt.
