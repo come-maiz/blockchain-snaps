@@ -6,6 +6,8 @@ services:
 env:
   matrix:
     - PROJECT=bitcoin
+    - PROJECT=bitcoin-unlimited
+    - PROJECT=bitcoin-ec
 
 script:
   - ./scripts/snap-in-docker.sh $PROJECT
