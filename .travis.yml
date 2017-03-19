@@ -13,6 +13,7 @@ script:
   - ./scripts/snap-in-docker.sh $PROJECT
 
 after_success:
+  - mkdir .snapcraft
   - openssl aes-256-cbc -K $ENCRYPTED_KEY -iv $ENCRYPTED_IV
     -in $PROJECT/.snapcraft/travis_snapcraft.cfg -out .snapcraft/snapcraft.cfg -d
 
