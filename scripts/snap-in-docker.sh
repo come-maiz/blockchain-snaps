@@ -9,10 +9,10 @@
 set -ev
 
 # Check if the latest tag is in the beta channel.
-tmp_dir="$(mktemp -d)"
 source="$(cat $1/snap/snapcraft.yaml | grep source: | head -n 1 | awk '{printf $2}')"
-git clone "${source}" "${tmp_dir}"
-last_committed_tag="$(git -C "${tmp_dir}" describe --tags --abbrev=0)"
+repo="$(echo "https://github.com/bitcoin/bitcoin" | sed 's|^.*github\.com/||')"
+wget https://api.github.com/repos/$repo/releases/latest
+last_committed_tag="$(jq .tag_name latest)"
 docker run -v "${HOME}":/root -v $(pwd):$(pwd) snapcore/snapcraft sh -c "apt update && apt install -y snapcraft && cd $(pwd)/$1 && ((snapcraft status $1 || echo "none") > status)"
 last_released_tag="$(awk '$1 == "beta" { print $2 }' $1/status)"
 
