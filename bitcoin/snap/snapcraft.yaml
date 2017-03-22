@@ -30,6 +30,7 @@ parts:
   bitcoin:
     source: https://github.com/bitcoin/bitcoin
     source-type: git
+    source-tag: master
     plugin: autotools
     # XXX We don't want to copy the full blockchain every time that the snap is
     # updated, but there's no way to define a default data dir in bitcoin-qt.
