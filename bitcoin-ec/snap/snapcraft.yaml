@@ -3,7 +3,7 @@ version: master
 summary:   peer-to-peer network based digital currency
 description: |
   BitcoinEC is a minimal patchset on top of Bitcoin Core to provide a stable implementation of Emergent Consensus.
-  
+
   Bitcoin is a free open source peer-to-peer electronic cash system that
   is completely decentralized, without the need for a central server or
   trusted parties.  Users hold the crypto keys to their own money and
@@ -30,8 +30,9 @@ apps:
 
 parts:
   bitcoin:
-    source: https://github.com/bitcoin/bitcoin
+    source: https://github.com/bitcoinec/bitcoinec
     source-type: git
+    source-tag: master
     plugin: autotools
     # XXX We don't want to copy the full blockchain every time that the snap is
     # updated, but there's no way to define a default data dir in bitcoin-qt.
