@@ -7,7 +7,7 @@ env:
   matrix:
     - PROJECT=bitcoin ENCRYPTED_KEY=$encrypted_de6cd6e0cc4e_key ENCRYPTED_IV=$encrypted_de6cd6e0cc4e_iv
     - PROJECT=bitcoin-unlimited ENCRYPTED_KEY=$encrypted_9a4f25510385_key ENCRYPTED_IV=$encrypted_9a4f25510385_iv
-    - PROJECT=bitcoin-ec ENCRYPTED_KEY=$encrypted_4e5ec7b39439_key ENCRYPTED_IV=$encrypted_4e5ec7b39439_iv
+    - ONLY_EDGE=1 PROJECT=bitcoin-ec ENCRYPTED_KEY=$encrypted_4e5ec7b39439_key ENCRYPTED_IV=$encrypted_4e5ec7b39439_iv
 
 before_install:
   - sudo apt-get update -qq
