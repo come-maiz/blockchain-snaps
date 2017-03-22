@@ -10,7 +10,6 @@ env:
     - PROJECT=bitcoin-ec ENCRYPTED_KEY=$encrypted_4e5ec7b39439_key ENCRYPTED_IV=$encrypted_4e5ec7b39439_iv
 
 before_script:
-  - mkdir $PROJECT/.snapcraft
   - openssl aes-256-cbc -K $ENCRYPTED_KEY -iv $ENCRYPTED_IV
     -in $PROJECT/.snapcraft/travis_snapcraft.cfg -out $PROJECT/.snapcraft/snapcraft.cfg -d
 
