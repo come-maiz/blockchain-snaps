@@ -28,4 +28,4 @@ if [ -z "$ONLY_EDGE"]; then
 
 fi
 
-docker run -v "$(pwd)":/cwd snapcore/snapcraft sh -c "apt update && apt upgrade -y && cd /cwd && ./scripts/snap.sh $1"
+docker run -e LC_ALL=en_US.UTF-8 -v "$(pwd)":/cwd snapcore/snapcraft sh -c "apt update && apt upgrade -y && locale-gen en_US.UTF-8 && cd /cwd && ./scripts/snap.sh $1"
