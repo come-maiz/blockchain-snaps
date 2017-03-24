@@ -24,6 +24,7 @@ apps:
   qt:
     command: desktop-launch bitcoin-qt
     plugs: [network, network-bind, unity7]
+    desktop: bitcoin.desktop
   cli:
     command: bitcoin-cli
 
@@ -86,3 +87,6 @@ parts:
     plugin: dump
     prime:
       - -*
+  desktop:
+    source: snap/gui
+    plugin: dump
