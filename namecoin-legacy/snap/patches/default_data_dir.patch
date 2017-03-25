@@ -1,0 +1,26 @@
+diff --git a/src/qt/guiutil.cpp b/src/qt/guiutil.cpp
+index f1b508a..64a8491 100644
+--- a/src/qt/guiutil.cpp
++++ b/src/qt/guiutil.cpp
+@@ -368,7 +368,7 @@ boost::filesystem::path static GetAutostartDir()
+ 
+     char* pszConfigHome = getenv("XDG_CONFIG_HOME");
+     if (pszConfigHome) return fs::path(pszConfigHome) / "autostart";
+-    char* pszHome = getenv("HOME");
++    char* pszHome = getenv("SNAP_USER_COMMON");
+     if (pszHome) return fs::path(pszHome) / ".config" / "autostart";
+     return fs::path();
+ }
+diff --git a/src/util.cpp b/src/util.cpp
+index fc51717..52d320c 100644
+--- a/src/util.cpp
++++ b/src/util.cpp
+@@ -823,7 +823,7 @@ string GetDefaultDataDir()
+     // Windows
+     return MyGetSpecialFolderPath(CSIDL_APPDATA, true) + "\\" + strSuffix;
+ #else
+-    char* pszHome = getenv("HOME");
++    char* pszHome = getenv("SNAP_USER_COMMON");
+     if (pszHome == NULL || strlen(pszHome) == 0)
+         pszHome = (char*)"/";
+     string strHome = pszHome;

@@ -1,0 +1,15 @@
+# http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-1.0.html
+[Desktop Entry]
+Type=Application
+Version=0.3.80
+Encoding=UTF-8
+Name=Namecoin
+Icon=${SNAP}/namecoin.png
+MimeType=x-scheme-handler/namecoin;
+Exec=namecoin %u
+Terminal=false
+Categories=Office;Finance;
+Comment=Namecoin P2P Cryptocurrency
+Keywords=internet;namecoin;
+Comment[fr]=Namecoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Namecoin, eşten eşe kriptografik sanal para birimi
