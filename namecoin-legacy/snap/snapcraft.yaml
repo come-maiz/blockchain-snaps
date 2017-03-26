@@ -27,28 +27,39 @@ apps: #Commands are the same as in namecoin-core. This is intended as they are i
     plugs: [network, network-bind, unity7]
     aliases: [namecoin-qt]
     desktop: namecoin.desktop
-  cli:
-    command: namecoin-cli
-    aliases: [namecoin-cli]
 
 parts:
   namecoin:
     source: https://github.com/namecoin/namecoin-legacy
     source-type: git
-    source-tag: namecoinq-release
-    plugin: autotools
+    source-tag: namecoinq
+    plugin: nil
     # XXX We don't want to copy the full blockchain every time that the snap is
     # updated, but there's no way to define a default data dir in bitcoin-qt.
     # Also, it would be better if we could split the wallet from the blockchain
     # https://github.com/bitcoin/bitcoin/issues/3214
     # -- elopio-20170308
-    prepare: git apply $SNAPCRAFT_STAGE/default_data_dir.patch
+    prepare: git apply $SNAPCRAFT_STAGE/*.patch
+    build: |
+      make -j$(expr $(cat /proc/cpuinfo | grep "^processor" | tail -n 1 | grep "[0-9]*" -o) + 1) -C src INCLUDEPATHS=-I$SNAPCRAFT_STAGE/include LIBPATHS=-L$SNAPCRAFT_STAGE/lib all
+      mv ./src/namecoind ./namecoind
+      make -C src clean
+      BDB_LIB_SUFFIX=-4.8 qmake -makefile
+      make -j$(expr $(cat /proc/cpuinfo | grep "^processor" | tail -n 1 | grep "[0-9]*" -o) + 1)
+    install: |
+      set -ev
+      install -Ds ./namecoin-qt $SNAPCRAFT_PART_INSTALL/bin/namecoin-qt
+      install -Ds ./namecoind $SNAPCRAFT_PART_INSTALL/bin/namecoind
     build-packages:
       - g++
       - pkg-config
       - libssl-dev
       - libevent-dev
       - bsdmainutils
+      # Other.
+      - build-essential
+      - libgtk2.0-dev
+      - libglib2.0-0
       # Boost.
       - libboost-system-dev
       - libboost-filesystem-dev
@@ -67,6 +78,8 @@ parts:
       - qttools5-dev-tools
       - libprotobuf-dev
       - protobuf-compiler
+      - qt5-default
+      - qtchooser
       # Optional.
       - libqrencode-dev
     stage-packages: [ca-certificates]
@@ -74,17 +87,25 @@ parts:
       - berkeleydb
       - desktop-qt5
       - patches
+#      - wxwidgets
   berkeleydb:
     source: http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz
     plugin: nil
     build: |
       cd build_unix
       ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$SNAPCRAFT_PART_INSTALL
+      make -j$(expr $(cat /proc/cpuinfo | grep "^processor" | tail -n 1 | grep "[0-9]*" -o) + 1)
     install: |
       cd build_unix
       make install
     prime:
       - -*
+#  wxwidgets:
+#    source: https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.0/wxWidgets-3.1.0.tar.bz2
+#    plugin: autotools
+#    prime:
+#      - -*
+
   patches:
     source: snap/patches
     plugin: dump
