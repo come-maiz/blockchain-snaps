@@ -15,7 +15,7 @@ if [ -z "$ONLY_EDGE"]; then
   repo="$(echo $source | sed 's|^.*github\.com/||')"
   wget https://api.github.com/repos/$repo/releases/latest
   last_released_tag="$(jq --raw-output .tag_name latest)"
-  docker run -v "${HOME}":/root -v $(pwd):$(pwd) snapcore/snapcraft sh -c "apt update && apt install -y snapcraft && cd $(pwd)/$1 && ((snapcraft status $1 || echo "none") > status)"
+  docker run -v "${HOME}":/root -v $(pwd):$(pwd) snapcore/snapcraft sh -c "cd $(pwd)/$1 && ((snapcraft status $1 || echo "none") > status)"
   last_released_snap="$(awk '$1 == "beta" { print $2 }' $1/status)"
 
   if [ "${last_released_tag}" != "${last_released_snap}" ]; then
@@ -28,4 +28,4 @@ if [ -z "$ONLY_EDGE"]; then
 
 fi
 
-docker run -e LC_ALL=en_US.UTF-8 -v "$(pwd)":/cwd snapcore/snapcraft sh -c "apt update && apt upgrade -y && locale-gen en_US.UTF-8 && cd /cwd && ./scripts/snap.sh $1"
+docker run -e LC_ALL=en_US.UTF-8 -v "$(pwd)":/cwd snapcore/snapcraft sh -c "apt update && apt install -y locales && locale-gen en_US.UTF-8 && cd /cwd && ./scripts/snap.sh $1"
