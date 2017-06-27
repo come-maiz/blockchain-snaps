@@ -1,0 +1,26 @@
+name: geth
+version: master
+summary: decentralized platform that runs smart contracts
+description: |
+  Ethereum is a decentralized platform that runs smart contracts, applications
+  that run exactly as programmed without possibility of downtime, censorship,
+  fraud or third party interference.
+
+  This is the Go implementation of the Ethereum protocol.
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: strict
+
+apps:
+  geth:
+    command: geth
+    plugs: [network, network-bind]
+
+parts:
+  go-ethereum:
+    source: https://github.com/ethereum/go-ethereum.git
+    plugin: go
+    go-importpath: github.com/ethereum/go-ethereum
+    after: [go]
+  go:
+    source-tag: go1.7.5
