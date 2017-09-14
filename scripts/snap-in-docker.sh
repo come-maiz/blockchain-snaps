@@ -13,8 +13,9 @@ if [ -z "$ONLY_EDGE"]; then
   # Check if the latest tag is in the beta channel.
   source="$(cat $1/snap/snapcraft.yaml | grep source: | head -n 1 | awk '{printf $2}')"
   repo="$(echo $source | sed 's|^.*github\.com/||')"
-  wget https://api.github.com/repos/$repo/releases/latest
-  last_released_tag="$(jq --raw-output .tag_name latest)"
+  wget https://api.github.com/repos/$repo/git/refs/tats
+  last_released_tag_ref="$(jq --raw-output .[-1].ref tags)"
+  last_released_tag="{last_released_tag_ref##*/}
   docker run -v "${HOME}":/root -v $(pwd):$(pwd) snapcore/snapcraft sh -c "cd $(pwd)/$1 && ((snapcraft status $1 || echo "none") > status)"
   last_released_snap="$(awk '$1 == "beta" { print $2 }' $1/status)"
 
