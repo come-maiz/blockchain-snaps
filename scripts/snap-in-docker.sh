@@ -15,7 +15,7 @@ if [ -z "$ONLY_EDGE"]; then
   repo="$(echo $source | sed 's|^.*github\.com/||')"
   wget https://api.github.com/repos/$repo/git/refs/tats
   last_released_tag_ref="$(jq --raw-output .[-1].ref tags)"
-  last_released_tag="{last_released_tag_ref##*/}
+  last_released_tag="{last_released_tag_ref##*/}"
   docker run -v "${HOME}":/root -v $(pwd):$(pwd) snapcore/snapcraft sh -c "cd $(pwd)/$1 && ((snapcraft status $1 || echo "none") > status)"
   last_released_snap="$(awk '$1 == "beta" { print $2 }' $1/status)"
 
