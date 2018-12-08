@@ -1,15 +1,15 @@
-name: bitcoin-unlimited
+name: bitcoin-ec
 version: master
 summary:   peer-to-peer network based digital currency
 description: |
-  The Bitcoin Unlimited (BU) project seeks to provide a voice to all
-  stakeholders in the Bitcoin ecosystem.
-  Every node operator or miner can currently choose their own blocksize limit
-  by modifying their client. Bitcoin Unlimited makes the process easier by
-  providing a configurable option for the accepted and generated blocksize via
-  a GUI menu. Bitcoin Unlimited further provides a user-configurable failsafe
-  setting allowing you to accept a block larger than your maximum accepted
-  blocksize if it reaches a certain number of blocks deep in the chain.
+  BitcoinEC is a minimal patchset on top of Bitcoin Core to provide a stable implementation of Emergent Consensus.
+
+  Bitcoin is a free open source peer-to-peer electronic cash system that
+  is completely decentralized, without the need for a central server or
+  trusted parties.  Users hold the crypto keys to their own money and
+  transact directly with each other, with the help of a P2P network to
+  check for double-spending.
+
 grade: devel
 confinement: strict
 
@@ -19,18 +19,21 @@ apps:
     plugs: [network, network-bind]
     environment:
       XDG_DATA_DIRS: $SNAP_USER_DATA:$SNAP/usr/share:$XDG_DATA_DIRS
+    aliases: [bitcoind]
   qt:
     command: desktop-launch bitcoin-qt
     plugs: [network, network-bind, unity7]
+    aliases: [bitcoin-qt]
     desktop: bitcoin.desktop
   cli:
     command: bitcoin-cli
+    aliases: [bitcoin-cli]
 
 parts:
   bitcoin:
-    source: https://github.com/BitcoinUnlimited/BitcoinUnlimited
+    source: https://github.com/bitcoinec/bitcoinec
     source-type: git
-    source-tag: dev
+    source-tag: master
     plugin: autotools
     # XXX We don't want to copy the full blockchain every time that the snap is
     # updated, but there's no way to define a default data dir in bitcoin-qt.
@@ -87,4 +90,4 @@ parts:
       - -*
   desktop:
     source: snap/gui
-plugin: dump
+    plugin: dump

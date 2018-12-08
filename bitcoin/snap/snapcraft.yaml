@@ -22,6 +22,7 @@ apps:
     command: desktop-launch bitcoin-qt
     plugs: [network, network-bind, unity7]
     aliases: [bitcoin-qt]
+    desktop: bitcoin.desktop
   cli:
     command: bitcoin-cli
     aliases: [bitcoin-cli]
@@ -30,6 +31,7 @@ parts:
   bitcoin:
     source: https://github.com/bitcoin/bitcoin
     source-type: git
+    source-tag: master
     plugin: autotools
     # XXX We don't want to copy the full blockchain every time that the snap is
     # updated, but there's no way to define a default data dir in bitcoin-qt.
@@ -84,3 +86,6 @@ parts:
     plugin: dump
     prime:
       - -*
+  desktop:
+    source: snap/gui
+    plugin: dump

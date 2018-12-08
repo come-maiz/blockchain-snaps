@@ -1,8 +1,8 @@
 diff --git a/src/util.cpp b/src/util.cpp
-index 479b40f..9bb3206 100644
+index 78c353d..0dc5b01 100644
 --- a/src/util.cpp
 +++ b/src/util.cpp
-@@ -465,7 +465,7 @@ boost::filesystem::path GetDefaultDataDir()
+@@ -487,7 +487,7 @@ boost::filesystem::path GetDefaultDataDir()
      return GetSpecialFolderPath(CSIDL_APPDATA) / "Bitcoin";
  #else
      fs::path pathRet;
@@ -10,4 +10,4 @@ index 479b40f..9bb3206 100644
 +    char* pszHome = getenv("SNAP_USER_COMMON");
      if (pszHome == NULL || strlen(pszHome) == 0)
          pathRet = fs::path("/");
-else
+     else

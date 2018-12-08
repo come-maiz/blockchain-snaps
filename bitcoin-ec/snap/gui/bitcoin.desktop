@@ -1,9 +1,9 @@
 # http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-1.0.html
 [Desktop Entry]
 Type=Application
-Version=1.0.1
+Version=master
 Encoding=UTF-8
-Name=Bitcoin
+Name=BitcoinEC
 Icon=${SNAP}/bitcoin128.png
 MimeType=x-scheme-handler/bitcoin;
 Exec=bitcoin %u
