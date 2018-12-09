@@ -10,4 +10,4 @@ index 479b40f..9bb3206 100644
 +    char* pszHome = getenv("SNAP_USER_COMMON");
      if (pszHome == NULL || strlen(pszHome) == 0)
          pathRet = fs::path("/");
-     else
+else

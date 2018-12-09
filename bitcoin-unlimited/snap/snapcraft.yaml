@@ -4,14 +4,12 @@ summary:   peer-to-peer network based digital currency
 description: |
   The Bitcoin Unlimited (BU) project seeks to provide a voice to all
   stakeholders in the Bitcoin ecosystem.
-
   Every node operator or miner can currently choose their own blocksize limit
   by modifying their client. Bitcoin Unlimited makes the process easier by
   providing a configurable option for the accepted and generated blocksize via
   a GUI menu. Bitcoin Unlimited further provides a user-configurable failsafe
   setting allowing you to accept a block larger than your maximum accepted
   blocksize if it reaches a certain number of blocks deep in the chain.
-
 grade: devel
 confinement: strict
 
@@ -89,4 +87,4 @@ parts:
       - -*
   desktop:
     source: snap/gui
-    plugin: dump
+plugin: dump
