@@ -17,15 +17,12 @@ apps:
     plugs: [network, network-bind]
     environment:
       XDG_DATA_DIRS: $SNAP_USER_DATA:$SNAP/usr/share:$XDG_DATA_DIRS
-    aliases: [bitcoind]
   qt:
     command: desktop-launch bitcoin-qt
     plugs: [network, network-bind, unity7]
-    aliases: [bitcoin-qt]
     desktop: bitcoin.desktop
   cli:
     command: bitcoin-cli
-    aliases: [bitcoin-cli]
 
 parts:
   bitcoin:
