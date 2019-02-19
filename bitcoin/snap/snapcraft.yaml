@@ -75,11 +75,13 @@ parts:
       - libboost-chrono1.65-dev
       - libboost-test1.65-dev
       - libboost-thread1.65-dev
+      - libboost-filesystem1.65.1
       - libevent-2.1-6
       - libevent-core-2.1-6
       - libevent-pthreads-2.1-6
       - libminiupnpc10
       - libprotobuf-c-dev
+      - libprotobuf10
       - libqrencode3
       - libqt5test5
       - libsodium-dev
