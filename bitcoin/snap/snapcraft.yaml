@@ -1,4 +1,5 @@
 name: bitcoin
+base: core18
 version: 0.17.1
 summary:   peer-to-peer network based digital currency
 description: |
@@ -71,21 +72,39 @@ parts:
       - libqrencode-dev
     stage-packages:
       - ca-certificates
-      - libboost-chrono1.58.0
-      - libboost-test1.58.0
-      - libboost-thread1.58.0
-      - libevent-2.0-5
-      - libevent-core-2.0-5
-      - libevent-pthreads-2.0-5
+      - libboost-chrono1.65-dev
+      - libboost-test1.65-dev
+      - libboost-thread1.65-dev
+      - libevent-2.1-6
+      - libevent-core-2.1-6
+      - libevent-pthreads-2.1-6
       - libminiupnpc10
-      - libprotobuf9v5
+      - libprotobuf-c-dev
       - libqrencode3
       - libqt5test5
-      - libsodium18
+      - libsodium-dev
       - libzmq5
     after:
       - berkeleydb
-      - desktop-qt5
+      - qt
+  qt:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: qt
+    plugin: make
+    make-parameters: []
+    build-packages:
+      - qtbase5-dev
+      - dpkg-dev
+    stage-packages:
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - shared-mime-info
+      - libqt5gui5
+      - libgdk-pixbuf2.0-0
+      - libqt5svg5 # for loading icon themes which are svg
+      - appmenu-qt
   berkeleydb:
     source: http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz
     source-checksum: sha256/12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef 
